@@ -1,5 +1,5 @@
 
-const stripe = Stripe('pk_test_51IsvYiSF0OpLcX4j0ELrPc7I6NCQ3OQxCKk4NkBfnWa36wXLCmxPD2K5mzYwXN9rpMRIefg97bP5mn7P4E2okJEk00xC7rc9gj');
+const stripe = Stripe('STRIPE_PUBLISHABLE_KEY');
 
 stripe.redirectToCheckout({
   // Make the id field from the Checkout Session creation API response

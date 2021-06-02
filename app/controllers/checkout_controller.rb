@@ -34,7 +34,6 @@ class CheckoutController < ApplicationController
             id: session.id
         }.to_json
 
-binding.pry
         respond_to do |format|
             format.js #render create.js.erb
         end
@@ -44,8 +43,6 @@ binding.pry
     def success
         @session = Stripe::Checkout::Session.retrieve(params[:session_id])
         @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
-        binding.pry
-
     end
 
     def cancel
