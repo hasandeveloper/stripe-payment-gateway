@@ -6,12 +6,17 @@ class CheckoutController < ApplicationController
         if @product.nil?
             redirect_to root_path
         end
+        if @product.price < 1
+            amount = 1.0
+        else 
+            amount = @product.price
+        end
 
         @session = Stripe::Checkout::Session.create({
             payment_method_types: ['card'],
             line_items: [{
             price_data: {
-                unit_amount: @product.price.to_i * 100 ,
+                unit_amount: amount.to_i * 100,
                 currency: 'usd',
                 product_data: {
                 name: @product.name,
@@ -29,7 +34,7 @@ class CheckoutController < ApplicationController
             id: session.id
         }.to_json
 
-
+binding.pry
         respond_to do |format|
             format.js #render create.js.erb
         end
@@ -39,6 +44,8 @@ class CheckoutController < ApplicationController
     def success
         @session = Stripe::Checkout::Session.retrieve(params[:session_id])
         @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+        binding.pry
+
     end
 
     def cancel
