@@ -1,0 +1,42 @@
+version: "3"
+services:
+  rails:
+    container_name: app
+    image: clinsyte:1.0
+    restart: always
+    ports:
+      - "3000:3000"
+    links:
+      - postgres
+    networks:
+      - default
+    environment:
+      - DB_POOL_THREADS=5
+      - CLINSYTE_DATABASE_NAME=clinsyte_db
+      - CLINSYTE_DATABASE_USERNAME=clinsyte
+      - CLINSYTE_DATABASE_PASSWORD=secret123
+      - DB_PORT=5432
+      - DB_HOST=postgres
+     
+
+  postgres:
+    container_name: db
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=clinsyte
+      - POSTGRES_PASSWORD=secret123
+      - POSTGRES_DB=clinsyte_db
+
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+    networks:
+      - default
+
+
+networks:
+  default:
+      external:
+          name: simple-network
